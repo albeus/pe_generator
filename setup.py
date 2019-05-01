@@ -22,7 +22,9 @@ setup(
     author="Alberto Eusebi",
     author_email='alberto.eusebi@albeus.eu',
     packages=find_packages(include=['pe_generator']),
-    requirements = ['Click>=6.0', ]
+    install_requires=[
+        'Click>=6.0',
+        ],
     entry_points={
         'console_scripts': [
             'pe_generator=pe_generator.cli:main',
