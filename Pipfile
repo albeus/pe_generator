@@ -6,6 +6,9 @@ verify_ssl = true
 [dev-packages]
 flake8 = "*"
 pytest = "*"
+jedi = "*"
+ipython = "*"
+ipdb = "*"
 
 [packages]
 pe-generator = {editable = true,path = "."}
