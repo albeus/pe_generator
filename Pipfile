@@ -9,6 +9,7 @@ pytest = "*"
 jedi = "*"
 ipython = "*"
 ipdb = "*"
+tox = "*"
 
 [packages]
 pe-generator = {editable = true,path = "."}
