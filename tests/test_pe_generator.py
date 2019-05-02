@@ -3,12 +3,19 @@
 
 """Tests for `pe_generator` package."""
 
-import pytest
-
+from tempfile import NamedTemporaryFile
 from collections import OrderedDict
+
+import pytest
+from click.testing import CliRunner
 
 from pe_generator import cli, person
 
+input_text_good = "\
+first_name,surname,age,nationality,favourite_colour\n\
+John,Keynes,29,British,red\n\
+Sarah,Robinson,54,,blue\n\
+\n"
 
 input_content_good = ['first_name,surname,age,nationality,favourite_colour', 
                       'John,Keynes,29,British,red',
@@ -74,3 +81,20 @@ def test_validate_input_row_consistency():
     """Ensure that each row has the right number of fields."""
     with pytest.raises(cli.InputError):
         cli.validate_row_consistency(input_content_inconsistent_row)
+
+
+def test_cli_generic_call():
+    """Ensure cli works."""
+    runner = CliRunner()
+    result = runner.invoke(cli.main)
+    assert result.exit_code == 0
+
+
+def test_cli_good_input():
+    """Test cli invoked with a good input."""
+    runner = CliRunner()
+    with NamedTemporaryFile(mode='w') as tmp_file:
+        tmp_file.file.write(input_text_good)
+        tmp_file.file.flush()
+        result = runner.invoke(cli.main, ['-i', tmp_file.name])
+    assert result.output.strip() == json_data_structure_good
