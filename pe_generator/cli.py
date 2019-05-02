@@ -24,11 +24,21 @@ class InputError(Error):
         self.message = message
 
 
-def validate_user_input(person_data_input):
-    """Check for invalid input."""
-    # Check row consistency
-    #    raise InputError(...)
-    pass
+def validate_header(person_data_input):
+    """Ensure that header in well formatted."""
+    header = person_data_input[0].split(',')
+    if '' in header:
+        raise InputError(header, "Empty fields in header!")
+
+
+def validate_row_consistency(person_data_input):
+    """Ensure that row are consistent with header."""
+    fields_num = len(person_data_input[0].split(','))
+    n = 2
+    for row in person_data_input[1:]:
+        if len(row.split(',')) != fields_num:
+            raise InputError("Line {0}: {1}".format(n, row), "Missing fields in row!")
+        n += 1
 
 
 @click.command()
@@ -62,15 +72,16 @@ def main(input_file):
             if line.strip() == "":  # Remove empty lines
                 continue 
             contents.append(line.strip())
-    # Discard empty input
+    # Validate input
     if contents == []:
         click.secho('Empty file given... Quit.', fg='yellow')
         sys.exit(0)
-    # Validate input
     try:
-        validate_user_input(contents)
+        validate_header(contents)
+        validate_row_consistency(contents)
     except InputError as err:
-        print("Input error: {0}".format(err))
+        click.secho("Error: {e.message}\n{e.expression}".format(e=err), fg='red') 
+        sys.exit(1)
 
     person = Person(contents)
     person.print_json()

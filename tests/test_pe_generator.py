@@ -3,22 +3,24 @@
 
 """Tests for `pe_generator` package."""
 
+import pytest
+
 from collections import OrderedDict
-from pe_generator import person
 
-# - malformed input
-#   - header: empty field
-#   - rows: inconsistent number of fields
+from pe_generator import cli, person
 
-input_text_good = "\
-first_name,surname,age,nationality,favourite_colour\n\
-John,Keynes,29,British,red\n\
-Sarah,Robinson,54,,blue\n\
-"
 
 input_content_good = ['first_name,surname,age,nationality,favourite_colour', 
                       'John,Keynes,29,British,red',
                       'Sarah,Robinson,54,,blue']
+
+input_content_inconsistent_row = ['first_name,surname,age,nationality,favourite_colour', 
+                                  'John,Keynes,British,red',
+                                  'Sarah,Robinson,54,,blue']
+
+input_content_header_empty_fields = ['first_name,,age,,favourite_colour', 
+                                     'John,Keynes,29,British,red',
+                                     'Sarah,Robinson,54,,blue']
 
 csv_data_structure_good = [OrderedDict([('first_name', 'John'),
                                         ('surname', 'Keynes'),
@@ -57,6 +59,18 @@ def test_import_good_csv():
 
 
 def test_print_json():
-    """Check json data structure"""
+    """Check json data structure."""
     test_person = person.Person(input_content_good)
     assert test_person.data_whitelist_to_json() == json_data_structure_good
+
+
+def test_validator_empty_field_in_heaader():
+    """Ensure empty fields in header raise error."""
+    with pytest.raises(cli.InputError):
+        cli.validate_header(input_content_header_empty_fields)
+
+
+def test_validate_input_row_consistency():
+    """Ensure that each row has the right number of fields."""
+    with pytest.raises(cli.InputError):
+        cli.validate_row_consistency(input_content_inconsistent_row)
