@@ -41,3 +41,14 @@ lint: ## check style with flake8
 
 test: ## run tests quickly with the default Python
 	py.test
+
+release: dist ## package and upload a release
+	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+
+dist: clean ## builds source and wheel package
+	python setup.py sdist
+	python setup.py bdist_wheel
+	ls -l dist
+
+install: ## install package in your system
+	pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple pe_generator

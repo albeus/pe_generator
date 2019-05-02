@@ -10,7 +10,8 @@ ipython = "*"
 jedi = "*"
 pytest = "*"
 tox = "*"
+twine = "*"
 
 [packages]
 pe-generator = {editable = true,path = "."}
-pathlib2 = {markers="python_version < '3.6'"}
+pathlib2 = {markers = "python_version < '3.6'"}
