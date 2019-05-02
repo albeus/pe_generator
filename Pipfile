@@ -5,14 +5,12 @@ verify_ssl = true
 
 [dev-packages]
 flake8 = "*"
-pytest = "*"
-jedi = "*"
-ipython = "*"
 ipdb = "*"
+ipython = "*"
+jedi = "*"
+pytest = "*"
 tox = "*"
 
 [packages]
 pe-generator = {editable = true,path = "."}
-
-[requires]
-python_version = "3.7"
+pathlib2 = {markers="python_version < '3.6'"}

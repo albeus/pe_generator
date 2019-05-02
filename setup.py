@@ -24,7 +24,8 @@ setup(
     packages=find_packages(include=['pe_generator']),
     install_requires=[
         'Click>=6.0',
-        ],
+        'pathlib2>=2.2.0;python_version<"3.6"',
+    ],
     entry_points={
         'console_scripts': [
             'pe_generator=pe_generator.cli:main',
