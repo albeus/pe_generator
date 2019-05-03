@@ -85,7 +85,3 @@ def main(input_file):
 
     person = Person(contents)
     person.print_json()
-
-
-if __name__ == "__main__":
-    sys.exit(main())

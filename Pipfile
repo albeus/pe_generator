@@ -11,6 +11,7 @@ jedi = "*"
 pytest = "*"
 tox = "*"
 twine = "*"
+pytest-cov = "*"
 
 [packages]
 pe-generator = {editable = true,path = "."}

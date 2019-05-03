@@ -40,7 +40,7 @@ lint: ## check style with flake8
 	flake8 pe_generator tests
 
 test: ## run tests quickly with the default Python
-	py.test
+	py.test --cov-report term-missing --cov=pe_generator
 
 release: dist ## package and upload a release
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
