@@ -63,7 +63,7 @@ def main(input_file):
     Empty lines will not be considered.
     """
     if input_file == '/dev/stdin':
-        click.secho("Enter/Paste your content. Ctrl-D to save it.", fg='green')
+        click.secho("Enter/Paste your content. Ctrl-D to save it.", fg='green', err=True)
 
     # Read input
     contents = []
@@ -80,7 +80,7 @@ def main(input_file):
         validate_header(contents)
         validate_row_consistency(contents)
     except InputError as err:
-        click.secho("Error: {e.message}\n{e.expression}".format(e=err), fg='red') 
+        click.secho("Error: {e.message}\n{e.expression}".format(e=err), fg='red', err=True)
         sys.exit(1)
 
     person = Person(contents)
